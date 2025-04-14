@@ -3,11 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>HealthGuardian - Your Emergency Healthcare Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-    
-    <h1>HI</h1>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-heartbeat"></i> HealthGuardian
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="emergency.html">Emergency</a>
+                <a href="hospitals.html">Find Hospitals</a>
+                <a href="assistant.html">AI Assistant</a>
+                <a href="bloodbank.html">Blood Banks</a>
+                <a href="login.html" class="btn-login">Login</a>
+            </div>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Emergency Healthcare When You Need It Most</h1>
+                <p>Instant access to medical help, hospital information, and emergency assistance with just one tap.</p>
+                <div class="hero-buttons">
+                    <a href="emergency.html" class="btn btn-primary">
+                        <i class="fas fa-bell"></i> Emergency SOS
+                    </a>
+                    <a href="hospitals.html" class="btn btn-secondary">
+                        <i class="fas fa-hospital"></i> Find Hospitals
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/hero-doctor.png" alt="Doctor using HealthGuardian">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">How HealthGuardian Helps You</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon emergency">
+                        <i class="fas fa-ambulance"></i>
+                    </div>
+                    <h3>Emergency Response</h3>
+                    <p>Instant connection to nearby ambulances, hospitals, and trained volunteers with one tap.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon hospital">
+                        <i class="fas fa-hospital-alt"></i>
+                    </div>
+                    <h3>Smart Hospital Search</h3>
+                    <p>Find hospitals with the shortest wait times and book appointments instantly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon ai">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Health Assistant</h3>
+                    <p>Get instant first-aid guidance and symptom analysis from our AI assistant.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon blood">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>Blood Bank Finder</h3>
+                    <p>Locate nearby blood banks with real-time inventory updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Quick Access -->
+    <section class="quick-access">
+        <div class="container">
+            <h2 class="section-title">Quick Access in Emergencies</h2>
+            <div class="quick-access-grid">
+                <a href="emergency.html#heart-attack" class="quick-card">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Heart Attack</span>
+                </a>
+                <a href="emergency.html#stroke" class="quick-card">
+                    <i class="fas fa-brain"></i>
+                    <span>Stroke</span>
+                </a>
+                <a href="emergency.html#choking" class="quick-card">
+                    <i class="fas fa-lungs"></i>
+                    <span>Choking</span>
+                </a>
+                <a href="emergency.html#bleeding" class="quick-card">
+                    <i class="fas fa-tint"></i>
+                    <span>Severe Bleeding</span>
+                </a>
+                <a href="emergency.html#burn" class="quick-card">
+                    <i class="fas fa-fire"></i>
+                    <span>Burns</span>
+                </a>
+                <a href="emergency.html#allergy" class="quick-card">
+                    <i class="fas fa-allergies"></i>
+                    <span>Allergic Reaction</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Lives Saved With HealthGuardian</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial active">
+                    <div class="testimonial-content">
+                        <p>"HealthGuardian helped me get to the nearest hospital during my heart attack. The quick response saved my life!"</p>
+                        <div class="testimonial-author">
+                            <img src="images/user1.jpg" alt="Robert Johnson">
+                            <div>
+                                <h4>Robert Johnson</h4>
+                                <span>New York</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"The AI assistant guided me through CPR when my husband collapsed. I didn't panic because I had step-by-step instructions."</p>
+                        <div class="testimonial-author">
+                            <img src="images/user2.jpg" alt="Sarah Miller">
+                            <div>
+                                <h4>Sarah Miller</h4>
+                                <span>Chicago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Protect Your Health?</h2>
+            <p>Download HealthGuardian now and have emergency healthcare at your fingertips</p>
+            <div class="download-buttons">
+                <a href="#" class="btn-download">
+                    <i class="fab fa-apple"></i> App Store
+                </a>
+                <a href="#" class="btn-download">
+                    <i class="fab fa-google-play"></i> Google Play
+                </a>
+            </div>
+            <p class="pwa-text">Or use our web app - no installation needed!</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="index.html" class="logo">
+                        <i class="fas fa-heartbeat"></i> HealthGuardian
+                    </a>
+                    <p>Your trusted emergency healthcare companion, connecting you with medical help when seconds matter.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="emergency.html">Emergency SOS</a></li>
+                        <li><a href="hospitals.html">Find Hospitals</a></li>
+                        <li><a href="assistant.html">AI Assistant</a></li>
+                        <li><a href="bloodbank.html">Blood Banks</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> Emergency: 911</li>
+                        <li><i class="fas fa-headset"></i> Support: 1-800-HELP</li>
+                        <li><i class="fas fa-envelope"></i> help@healthguardian.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 HealthGuardian. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/home.js"></script>
 </body>
 </html>

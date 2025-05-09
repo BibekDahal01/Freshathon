@@ -372,3 +372,47 @@
         width: 100%;
     }
 }
+/* Current location marker style */
+.current-location-marker {
+    background: transparent;
+    border: none;
+}
+
+/* Responsive adjustments for hospital cards */
+@media (max-width: 768px) {
+    .hospital-details {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .hospital-actions {
+        flex-direction: column;
+    }
+    
+    .hospital-actions button {
+        width: 100%;
+    }
+}
+
+/* Better map container sizing */
+.map-container {
+    height: 500px;
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .results-container {
+        display: flex;
+    }
+    
+    .map-container {
+        height: 600px;
+        flex: 2;
+    }
+    
+    .hospital-list {
+        flex: 1;
+        overflow-y: auto;
+        max-height: 600px;
+    }
+}

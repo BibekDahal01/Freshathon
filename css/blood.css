@@ -519,3 +519,123 @@
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* Current location marker style */
+.current-location-marker {
+    background: transparent;
+    border: none;
+}
+
+/* Request form styles */
+.request-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.request-form {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.request-form h3 {
+    color: #e74c3c;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+}
+
+.btn-cancel {
+    background: #ecf0f1;
+    color: #7f8c8d;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+}
+
+/* Responsive adjustments for blood bank cards */
+@media (max-width: 768px) {
+    .bloodbank-details {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .bloodbank-actions {
+        flex-direction: column;
+    }
+    
+    .bloodbank-actions button {
+        width: 100%;
+    }
+}
+
+/* Better map container sizing */
+.map-container {
+    height: 500px;
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .results-container {
+        display: flex;
+    }
+    
+    .map-container {
+        height: 600px;
+        flex: 2;
+    }
+    
+    .bloodbank-list {
+        flex: 1;
+        overflow-y: auto;
+        max-height: 600px;
+    }
+}

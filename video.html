@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Conference - HealthGuardian</title>
-    <link rel="stylesheet" href="css\styles.css">
-    <link rel="stylesheet" href="css\video.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/video.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
@@ -31,9 +31,9 @@
     </nav>
 
     <!-- Video Conference Section -->
-    <section class="video-conference">
+    <section class="video-conference" style="display: none;">
         <div class="container">
-            <h1>Secure Medical Video Consultation</h1>
+        
             <p class="subtitle">Connect with healthcare professionals through encrypted video calls</p>
             
             <div class="conference-container">
@@ -62,8 +62,13 @@
                             <div class="video-label">You</div>
                         </div>
                         <div class="video-box remote-video">
-                            <video id="remote-video" autoplay playsinline></video>
-                            <div class="video-label">Doctor</div>
+                            <img id="doctor-image" src="https://img.freepik.com/free-photo/doctor-with-his-arms-crossed-white-background_1368-5790.jpg" alt="Doctor">
+                            <video id="remote-video" autoplay playsinline style="display: none;"></video>
+                            <div class="video-label">Dr. Smith</div>
+                            <div class="connection-status">
+                                <span class="status-dot"></span>
+                                <span class="status-text">Connecting...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,16 +111,7 @@
                     
                     <div class="chat-container">
                         <div class="chat-messages" id="chat-messages">
-                            <div class="message received">
-                                <div class="message-sender">Dr. Smith</div>
-                                <div class="message-content">Hello, how can I help you today?</div>
-                                <div class="message-time">10:30 AM</div>
-                            </div>
-                            <div class="message sent">
-                                <div class="message-sender">You</div>
-                                <div class="message-content">I've been having chest pains since yesterday</div>
-                                <div class="message-time">10:31 AM</div>
-                            </div>
+                            <!-- Messages will be added dynamically -->
                         </div>
                         <div class="chat-input">
                             <input type="text" id="chat-input" placeholder="Type your message...">
@@ -205,7 +201,13 @@
                                 <option value="">Select Microphone</option>
                             </select>
                             <div class="device-preview">
-                                <div class="audio-visualizer" id="audio-visualizer"></div>
+                                <div class="audio-visualizer" id="audio-visualizer">
+                                    <div class="audio-bar"></div>
+                                    <div class="audio-bar"></div>
+                                    <div class="audio-bar"></div>
+                                    <div class="audio-bar"></div>
+                                    <div class="audio-bar"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="device-option">
@@ -266,7 +268,7 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/peerjs@1.4.7/dist/peerjs.min.js"></script>
-    <script src="js\video.js"></script>
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+    <script src="js/video.js"></script>
 </body>
 </html>

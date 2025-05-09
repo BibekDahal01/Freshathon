@@ -24,7 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const cameraPreview = document.getElementById('camera-preview');
     const localVideo = document.getElementById('local-video');
     const remoteVideo = document.getElementById('remote-video');
+    const doctorImage = document.getElementById('doctor-image');
     const meetingCodeInput = document.getElementById('meeting-code');
+    const statusDot = document.querySelector('.status-dot');
+    const statusText = document.querySelector('.status-text');
     
     // State variables
     let localStream;
@@ -38,6 +41,27 @@ document.addEventListener('DOMContentLoaded', function() {
     let isMicOn = true;
     let isScreenSharing = false;
     let isChatOpen = true;
+    let isDoctorConnected = false;
+    
+    // Doctor responses for chat
+    const doctorResponses = [
+    "I understand you're not feeling well. Can you describe your symptoms?",
+    "How long have you been experiencing these symptoms?",
+    "Are you taking any medications currently?",
+    "Let me check your medical history...",
+    "I recommend you get some rest and drink plenty of fluids.",
+    "Based on your symptoms, I'm going to prescribe some medication.",
+    "Do you have any allergies I should know about?",
+    "Have you experienced this before?",
+    "I suggest we schedule a follow-up appointment next week.",
+    "Is there anything else you'd like to discuss?"
+];
+
+    // Add welcome message from doctor
+setTimeout(() => {
+    addMessage('Dr. Ravi', 'Hi I am Dr. Ravi. How can I help you?', 'received');
+    addSystemMessage('Dr. Ravi has joined the consultation');
+}, 1000);
     
     // Initialize the application
     function init() {
@@ -52,6 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Get user media devices
         getMediaDevices();
+        
+        // Initialize audio visualizer animation
+        animateAudioVisualizer();
     }
     
     // Set up event listeners
@@ -220,121 +247,152 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Playing test sound through selected speaker');
     }
     
+    // Animate audio visualizer
+    function animateAudioVisualizer() {
+        const audioBars = document.querySelectorAll('.audio-bar');
+        audioBars.forEach((bar, index) => {
+            setInterval(() => {
+                const height = Math.random() * 100;
+                bar.style.height = `${height}%`;
+                bar.style.backgroundColor = `hsl(${200 + height}, 100%, 50%)`;
+            }, 100 + (index * 100));
+        });
+    }
+    
     // Start a new consultation
-    async function startConsultation() {
-        try {
-            // Initialize PeerJS
-            peer = new Peer();
+async function startConsultation() {
+    try {
+        // Initialize PeerJS
+        peer = new Peer();
+        
+        peer.on('open', (id) => {
+            console.log('Peer connected with ID:', id);
             
-            peer.on('open', (id) => {
-                console.log('Peer connected with ID:', id);
-                
-                // Show video conference section
-                preCallSection.style.display = 'none';
-                videoConferenceSection.style.display = 'block';
-                
-                // Start local video
-                localVideo.srcObject = localStream;
-                
-                // Start meeting timer
-                startMeetingTimer();
-                
-                // In a real app, you would connect to a signaling server
-                // and wait for participants to join
-                simulateDoctorJoin();
-            });
+            // Show video conference section
+            preCallSection.style.display = 'none';
+            videoConferenceSection.style.display = 'block';
             
-            peer.on('call', (call) => {
-                call.answer(localStream);
-                currentCall = call;
-                
-                call.on('stream', (stream) => {
-                    remoteVideo.srcObject = stream;
-                    remoteStream = stream;
+            // Get user media
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(stream => {
+                    localStream = stream;
+                    localVideo.srcObject = stream;
+                    
+                    // Start meeting timer
+                    startMeetingTimer();
+                    
+                    // Show doctor image (no video)
+                    doctorImage.style.display = 'block';
+                    remoteVideo.style.display = 'none';
+                    
+                    // Add welcome message
+                    setTimeout(() => {
+                        addMessage('Dr. Ravi', 'Hi I am Dr. Ravi. How can I help you?', 'received');
+                        addSystemMessage('Dr. Ravi has joined the consultation');
+                        updateConnectionStatus(true);
+                    }, 1000);
+                })
+                .catch(err => {
+                    console.error('Error accessing media devices:', err);
+                    alert('Could not access camera/microphone. Please check permissions.');
                 });
-                
-                call.on('close', endCall);
-                call.on('error', (err) => {
-                    console.error('Call error:', err);
-                    endCall();
-                });
-            });
+        });
+        
+        peer.on('error', (err) => {
+            console.error('Peer error:', err);
+            alert('Connection error. Please try again.');
+        });
+        
+    } catch (err) {
+        console.error('Error starting consultation:', err);
+        alert('Could not start consultation. Please try again.');
+    }
+}
+    
+    // Simulate connecting to a doctor
+    function connectToDoctor() {
+        updateConnectionStatus(true);
+        setTimeout(() => {
+            // Show doctor's video (in a real app, this would be the actual stream)
+            doctorImage.style.display = 'none';
+            remoteVideo.style.display = 'block';
+            isDoctorConnected = true;
             
-            peer.on('error', (err) => {
-                console.error('Peer error:', err);
-                alert('Connection error. Please try again.');
-            });
+            // Add welcome message from doctor
+            addMessage('Dr. Smith', doctorResponses[0], 'received');
             
-        } catch (err) {
-            console.error('Error starting consultation:', err);
-            alert('Could not start consultation. Please try again.');
+            // Add system message
+            addSystemMessage('Dr. Smith has joined the consultation');
+        }, 1500);
+    }
+    
+    // Update connection status UI
+    function updateConnectionStatus(connected) {
+        if (connected) {
+            statusDot.classList.add('connected');
+            statusText.textContent = 'Connected';
+        } else {
+            statusDot.classList.remove('connected');
+            statusText.textContent = 'Connecting...';
         }
     }
     
     // Join an existing consultation
-    function joinConsultation() {
-        const meetingCode = meetingCodeInput.value.trim();
-        
-        if (!meetingCode) {
-            alert('Please enter a meeting ID');
-            return;
-        }
-        
-        try {
-            // Initialize PeerJS
-            peer = new Peer();
-            
-            peer.on('open', (id) => {
-                console.log('Peer connected with ID:', id);
-                
-                // Show video conference section
-                preCallSection.style.display = 'none';
-                videoConferenceSection.style.display = 'block';
-                
-                // Start local video
-                localVideo.srcObject = localStream;
-                
-                // Start meeting timer
-                startMeetingTimer();
-                
-                // In a real app, you would connect to the host's stream
-                // using the meeting code
-                simulateCallHost(meetingCode);
-            });
-            
-            peer.on('error', (err) => {
-                console.error('Peer error:', err);
-                alert('Connection error. Please try again.');
-            });
-            
-        } catch (err) {
-            console.error('Error joining consultation:', err);
-            alert('Could not join consultation. Please check the meeting ID and try again.');
-        }
+async function joinConsultation() {
+    const meetingCode = meetingCodeInput.value.trim();
+    
+    if (!meetingCode) {
+        alert('Please enter a meeting ID');
+        return;
     }
     
-    // Simulate doctor joining (for demo purposes)
-    function simulateDoctorJoin() {
-        setTimeout(() => {
-            // In a real app, this would be the actual remote stream
-            remoteVideo.srcObject = new MediaStream();
+    try {
+        // Initialize PeerJS
+        peer = new Peer();
+        
+        peer.on('open', (id) => {
+            console.log('Peer connected with ID:', id);
             
-            // Add a system message to chat
-            addSystemMessage('Dr. Smith has joined the consultation');
-        }, 2000);
-    }
-    
-    // Simulate calling host (for demo purposes)
-    function simulateCallHost(meetingCode) {
-        setTimeout(() => {
-            // In a real app, this would be the actual host's stream
-            remoteVideo.srcObject = new MediaStream();
+            // Show video conference section
+            preCallSection.style.display = 'none';
+            videoConferenceSection.style.display = 'block';
             
-            // Add system messages to chat
-            addSystemMessage(`Connected to meeting ${meetingCode}`);
-            addSystemMessage('Dr. Smith is in the consultation');
-        }, 2000);
+            // Get user media
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(stream => {
+                    localStream = stream;
+                    localVideo.srcObject = stream;
+                    
+                    // Start meeting timer
+                    startMeetingTimer();
+                    
+                    // Show doctor image (no video)
+                    doctorImage.style.display = 'block';
+                    remoteVideo.style.display = 'none';
+                    
+                    // Add welcome message
+                    setTimeout(() => {
+                        addMessage('Dr. Ravi', 'Hi I am Dr. Ravi. How can I help you?', 'received');
+                        addSystemMessage('Connected to meeting ' + meetingCode);
+                        updateConnectionStatus(true);
+                    }, 1000);
+                })
+                .catch(err => {
+                    console.error('Error accessing media devices:', err);
+                    alert('Could not access camera/microphone. Please check permissions.');
+                });
+        });
+        
+        peer.on('error', (err) => {
+            console.error('Peer error:', err);
+            alert('Connection error. Please try again.');
+        });
+        
+    } catch (err) {
+        console.error('Error joining consultation:', err);
+        alert('Could not join consultation. Please check the meeting ID and try again.');
     }
+}
     
     // Toggle video on/off
     function toggleVideo() {
@@ -349,6 +407,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     '<i class="fas fa-video"></i>' : 
                     '<i class="fas fa-video-slash"></i>';
                 toggleVideoBtn.classList.toggle('btn-active', isVideoOn);
+                
+                // Update participant status
+                updateParticipantStatus('video', isVideoOn);
                 
                 // Add system message
                 addSystemMessage(`Video turned ${isVideoOn ? 'on' : 'off'}`);
@@ -370,9 +431,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     '<i class="fas fa-microphone-slash"></i>';
                 toggleMicBtn.classList.toggle('btn-active', isMicOn);
                 
+                // Update participant status
+                updateParticipantStatus('mic', isMicOn);
+                
                 // Add system message
                 addSystemMessage(`Microphone turned ${isMicOn ? 'on' : 'off'}`);
             }
+        }
+    }
+    
+    // Update participant status in sidebar
+    function updateParticipantStatus(type, isOn) {
+        const icons = document.querySelectorAll('.participant-status i');
+        if (type === 'video') {
+            icons[1].className = isOn ? 'fas fa-video' : 'fas fa-video-slash';
+        } else {
+            icons[0].className = isOn ? 'fas fa-microphone' : 'fas fa-microphone-slash';
         }
     }
     
@@ -456,18 +530,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Send chat message
     function sendMessage() {
-        const message = chatInput.value.trim();
-        if (message) {
-            // Add message to chat
-            addMessage('You', message, 'sent');
-            
-            // In a real app, you would send this to the other participant
-            // via your signaling server or WebRTC data channel
-            
-            // Clear input
-            chatInput.value = '';
-        }
+    const message = chatInput.value.trim();
+    if (message) {
+        // Add user message to chat
+        addMessage('You', message, 'sent');
+        
+        // Simulate doctor response after 1-3 seconds
+        setTimeout(() => {
+            const randomResponse = doctorResponses[Math.floor(Math.random() * doctorResponses.length)];
+            addMessage('Dr. Ravi', randomResponse, 'received');
+        }, 1000 + Math.random() * 2000);
+        
+        // Clear input
+        chatInput.value = '';
     }
+}
     
     // Add message to chat UI
     function addMessage(sender, text, type) {
@@ -554,12 +631,16 @@ document.addEventListener('DOMContentLoaded', function() {
         videoConferenceSection.style.display = 'none';
         localVideo.srcObject = null;
         remoteVideo.srcObject = null;
+        doctorImage.style.display = 'block';
+        remoteVideo.style.display = 'none';
         
         // Reset state
         currentCall = null;
         isVideoOn = true;
         isMicOn = true;
         isScreenSharing = false;
+        isDoctorConnected = false;
+        updateConnectionStatus(false);
         
         // Add system message
         addSystemMessage('Consultation ended');

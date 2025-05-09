@@ -4,32 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HealthGuardian - Your Emergency Healthcare Companion</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="css\styles.css">
+    <link rel="stylesheet" href="css\home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <i class="fas fa-heartbeat"></i> HealthGuardian
-            </a>
-            <div class="nav-links">
-                <a href="index.html" class="active">Home</a>
-                <a href="emergency.html">Emergency</a>
-                <a href="hospitals.html">Find Hospitals</a>
-                <a href="assistant.html">AI Assistant</a>
-                <a href="video.html">video conference</a>
-                <a href="bloodbank.html">Blood Banks</a>
-                <a href="login.html" class="btn-login">Login</a>
+    <div class="container">
+        <a href="index.html" class="logo">
+            <i class="fas fa-heartbeat"></i> HealthGuardian
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="emergency.html">Emergency</a>
+            <a href="hospitals.html">Find Hospitals</a>
+            <a href="assistant.html">AI Assistant</a>
+            <a href="video.html">Video Conference</a>
+            <a href="bloodbank.html">Blood Banks</a>
+            <a href="login.html" class="login-btn">Login</a>
+            
+            <!-- Profile dropdown (hidden by default) -->
+            <div class="profile-dropdown" style="display: none;">
+                <button class="profile-toggle">
+                    <img src="ihttps://commons.wikimedia.org/wiki/File:Eo_circle_red_letter-h.svg" class="profile-img" alt="Profile">
+                    <span class="profile-name">User</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <button class="dropdown-item logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
             </div>
-            <button class="hamburger">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
-    </nav>
+        <button class="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -217,7 +232,9 @@
         </div>
     </footer>
 
-    <script src="main.js"></script>
-    <script src="home.js"></script>
+    <script src="JS\main.js"></script>
+    <script src="js\home.js"></script>
+    <script src="js\auth.js"></script>
+    <script src="js\login.js"></script>
 </body>
 </html>

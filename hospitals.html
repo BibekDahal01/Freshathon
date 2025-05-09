@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Hospitals - HealthGuardian</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="hospitals.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/hospitals.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -22,7 +21,7 @@
                 <a href="emergency.html">Emergency</a>
                 <a href="hospitals.html" class="active">Find Hospitals</a>
                 <a href="assistant.html">AI Assistant</a>
-                <a href="video.html">video conference</a>
+                <a href="video.html">Video Conference</a>
                 <a href="bloodbank.html">Blood Banks</a>
             </div>
             <button class="hamburger">
@@ -64,7 +63,12 @@
             
             <div class="results-container">
                 <div class="map-container">
-                    <div id="hospital-map"></div>
+                    <div id="hospital-map">
+                        <div class="map-loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading map...</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="hospital-list">
                     <div class="sort-options">
@@ -93,8 +97,8 @@
                     <h3>Need Immediate Help?</h3>
                     <p>If this is a life-threatening emergency, please call your local emergency number immediately.</p>
                     <div class="emergency-buttons">
-                        <a href="tel:911" class="btn-emergency">
-                            <i class="fas fa-phone"></i> Call 911 (US)
+                        <a href="tel:108" class="btn-emergency">
+                            <i class="fas fa-phone"></i> Call 108 (India)
                         </a>
                         <a href="emergency.html" class="btn-secondary">
                             <i class="fas fa-bell"></i> Emergency SOS
@@ -121,14 +125,14 @@
                         <li><a href="emergency.html">Emergency SOS</a></li>
                         <li><a href="hospitals.html">Find Hospitals</a></li>
                         <li><a href="assistant.html">AI Assistant</a></li>
-                        <li><a href="video conference">video conference</a></li>
+                        <li><a href="video.html">Video Conference</a></li>
                         <li><a href="bloodbank.html">Blood Banks</a></li>
                     </ul>
                 </div>
                 <div class="footer-contact">
                     <h3>Contact Us</h3>
                     <ul>
-                        <li><i class="fas fa-phone"></i> Emergency: 911</li>
+                        <li><i class="fas fa-phone"></i> Emergency: 108</li>
                         <li><i class="fas fa-headset"></i> Support: 1-800-HELP</li>
                         <li><i class="fas fa-envelope"></i> help@healthguardian.com</li>
                     </ul>
@@ -146,8 +150,45 @@
         </div>
     </footer>
 
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-    <script src="main.js"></script>
-    <script src="hospitals.js"></script>
+    <!-- Load Google Maps API with callback -->
+    <script>
+        function loadGoogleMaps() {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap`;
+            script.async = true;
+            script.defer = true;
+            script.onerror = () => {
+                showMapError();
+            };
+            document.head.appendChild(script);
+        }
+
+        function showMapError() {
+            const mapContainer = document.getElementById('hospital-map');
+            mapContainer.innerHTML = `
+                <div class="map-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Map Loading Error</h3>
+                    <p>We couldn't load Google Maps. Please check:</p>
+                    <ul>
+                        <li>Your internet connection</li>
+                        <li>That JavaScript is enabled</li>
+                        <li>Try refreshing the page</li>
+                    </ul>
+                    <button id="retry-map-btn" class="btn-primary">
+                        <i class="fas fa-sync-alt"></i> Retry
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('retry-map-btn').addEventListener('click', loadGoogleMaps);
+        }
+
+        // Start loading Google Maps
+        window.onload = loadGoogleMaps;
+    </script>
+
+    <script src="js/hospitals.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
